@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Princar.Core.Domain.DTOs;
-using Princar.Seguranca.Domain.Commands.Seguranca;
 using Princar.Seguranca.Domain.Interfaces.Repositories;
 using prmToolkit.NotificationPattern;
 

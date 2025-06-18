@@ -17,7 +17,6 @@ namespace Princar.WebApi
             services.ConfigureSwagger();
             services.ConfigureDbContext(Configuration.GetConnectionString("PrincarConnection"));
             services.ConfigureUnitOfWork();
-            services.ConfigureSicoob();
             services.ConfigureRepository();
             services.ConfigureMediatorCoreDomain();
             services.ConfigureMediatorSegurancaDomain();

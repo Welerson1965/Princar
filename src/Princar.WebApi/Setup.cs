@@ -1,15 +1,12 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Princar.Core.Domain.Interfaces.UoW;
 using Princar.Infra.Data.Context;
-using Princar.Infra.Data.External.Sicoob;
 using Princar.Infra.Data.Repositories.Seguranca;
 using Princar.Infra.Data.UoW;
 using Princar.Seguranca.Domain.Interfaces.Repositories;
-using Princar.Sicoob.Interfaces;
 using System.Text;
 
 namespace Princar.WebApi
@@ -92,13 +89,13 @@ namespace Princar.WebApi
         public static void ConfigureMediatorCoreDomain(this IServiceCollection services)
         {
             var assemblyCoreDomain = AppDomain.CurrentDomain.Load("Princar.Core.Domain");
-            services.AddMediatR(assemblyCoreDomain);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assemblyCoreDomain));
         }
 
         public static void ConfigureMediatorSegurancaDomain(this IServiceCollection services)
         {
             var assemblySegurancaDomain = AppDomain.CurrentDomain.Load("Princar.Seguranca.Domain");
-            services.AddMediatR(assemblySegurancaDomain);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assemblySegurancaDomain));
         }
 
         public static void ConfigureUnitOfWork(this IServiceCollection services)
@@ -108,12 +105,7 @@ namespace Princar.WebApi
 
         public static void ConfigureRepository(this IServiceCollection services)
         {
-            services.AddTransient<IRepositoryLicencaUso, RepositoryLicencaUso>();
             services.AddTransient<IRepositoryProduto, RepositoryProduto>();
-        }
-        public static void ConfigureSicoob(this IServiceCollection services)
-        {
-            services.AddTransient<ISicoobApi, SicoobApi>();
         }
     }
 }

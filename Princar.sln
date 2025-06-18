@@ -17,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Princar.Infra.Data", "src\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Princar.Seguranca.Domain", "src\Princar.Seguranca.Domain\Princar.Seguranca.Domain.csproj", "{808C680A-5EA6-4939-AF93-AC103B3A4696}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Princar.Sicoob", "src\Princar.Sicoob\Princar.Sicoob.csproj", "{AEE037DA-A62E-4BC6-BCA8-6D313040A81F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{808C680A-5EA6-4939-AF93-AC103B3A4696}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{808C680A-5EA6-4939-AF93-AC103B3A4696}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{808C680A-5EA6-4939-AF93-AC103B3A4696}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AEE037DA-A62E-4BC6-BCA8-6D313040A81F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEE037DA-A62E-4BC6-BCA8-6D313040A81F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEE037DA-A62E-4BC6-BCA8-6D313040A81F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEE037DA-A62E-4BC6-BCA8-6D313040A81F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,7 +48,6 @@ Global
 		{A7672A1A-B59C-431C-81C5-7E8D32FA86F6} = {DE5BDC4C-AD1A-4EB5-9CBF-961655AAD893}
 		{9930525B-4BC0-44FE-8B28-90F112F12D37} = {52CF245C-C9EB-4444-A8D0-E010FAE1FBE1}
 		{808C680A-5EA6-4939-AF93-AC103B3A4696} = {DE5BDC4C-AD1A-4EB5-9CBF-961655AAD893}
-		{AEE037DA-A62E-4BC6-BCA8-6D313040A81F} = {DE5BDC4C-AD1A-4EB5-9CBF-961655AAD893}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11A294B2-B1BC-42C1-AC6C-89D103986CF9}

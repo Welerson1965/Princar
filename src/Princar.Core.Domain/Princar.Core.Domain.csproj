@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.IQueryable.Extensions" Version="8.0.0" />
-    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="prmToolkit.NotificationPattern" Version="1.1.5" />
   </ItemGroup>
 
