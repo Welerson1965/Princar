@@ -109,6 +109,7 @@ namespace Princar.WebApi
         public static void ConfigureRepository(this IServiceCollection services)
         {
             services.AddTransient<IRepositoryLicencaUso, RepositoryLicencaUso>();
+            services.AddTransient<IRepositoryProduto, RepositoryProduto>();
         }
         public static void ConfigureSicoob(this IServiceCollection services)
         {

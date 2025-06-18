@@ -55,5 +55,60 @@ namespace Princar.Infra.Data.Repositories.Base
 
             return query;
         }
+        #region Listar Por Sem Rastreamento...
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde)
+        {
+            return DbSet.AsNoTracking().Where(onde).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente)
+        {
+            return ascendente
+                ? DbSet.AsNoTracking().Where(onde).OrderBy(ordem).AsEnumerable()
+                : DbSet.AsNoTracking().Where(onde).OrderByDescending(ordem).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente, params Expression<Func<TEntity, object>>[] incluirPropriedadesNavegacao)
+        {
+            if (incluirPropriedadesNavegacao.Any())
+                return ascendente
+                    ? Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).OrderBy(ordem).AsEnumerable()
+                    : Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).OrderByDescending(ordem).AsEnumerable();
+
+            return ascendente
+                ? DbSet.AsNoTracking().Where(onde).OrderBy(ordem).AsEnumerable()
+                : DbSet.AsNoTracking().Where(onde).OrderByDescending(ordem).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente, params string[] incluirPropriedadesNavegacao)
+        {
+            if (incluirPropriedadesNavegacao.Any())
+                return ascendente
+                    ? Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).OrderBy(ordem).AsEnumerable()
+                    : Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).OrderByDescending(ordem).AsEnumerable();
+
+            return ascendente
+                ? DbSet.AsNoTracking().Where(onde).OrderBy(ordem).AsEnumerable()
+                : DbSet.AsNoTracking().Where(onde).OrderByDescending(ordem).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, params Expression<Func<TEntity, object>>[] incluirPropriedadesNavegacao)
+        {
+            if (incluirPropriedadesNavegacao.Any())
+                return Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).AsEnumerable();
+
+            return DbSet.AsNoTracking().Where(onde).AsEnumerable();
+        }
+
+        public IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, params string[] incluirPropriedadesNavegacao)
+        {
+            if (incluirPropriedadesNavegacao.Any())
+                return Include(DbSet, incluirPropriedadesNavegacao).AsNoTracking().Where(onde).AsEnumerable();
+
+            return DbSet.AsNoTracking().Where(onde).AsEnumerable();
+        }
+
+        #endregion
     }
 }

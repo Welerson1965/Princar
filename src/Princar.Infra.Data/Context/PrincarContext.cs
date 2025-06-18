@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Princar.Seguranca.Domain.Entities.Produto;
 using Princar.Seguranca.Domain.Entities.Seguranca;
 using prmToolkit.NotificationPattern;
 
@@ -11,6 +12,7 @@ namespace Princar.Infra.Data.Context
         public PrincarContext(DbContextOptions<PrincarContext> options) : base(options) { }
 
         public DbSet<LicencaUsoEntity> LicencaUso { get; set; }
+        public DbSet<ProdutoEntity> Produto { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

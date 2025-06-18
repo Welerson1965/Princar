@@ -1,0 +1,9 @@
+﻿namespace Princar.Seguranca.Domain.Commands.Produto
+{
+    public class ProdutoResponse
+    {
+        public string Descricao { get; set; }
+        public decimal Preco { get; set; }
+        public decimal Quantidade { get; set; }
+    }
+}

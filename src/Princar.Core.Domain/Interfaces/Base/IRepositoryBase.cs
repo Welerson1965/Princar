@@ -13,5 +13,16 @@ namespace Princar.Core.Domain.Interfaces.Base
         TEntity ObterPorId(TId id, params string[] incluirPropriedadesNavegacao);
 
         #endregion
+    
+        #region Listar Por Sem Rastreamento...
+
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde);
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente);
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente, params Expression<Func<TEntity, object>>[] incluirPropriedadesNavegacao);
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, Func<TEntity, object> ordem, bool ascendente, params string[] incluirPropriedadesNavegacao);
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, params Expression<Func<TEntity, object>>[] incluirPropriedadesNavegacao);
+        IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, params string[] incluirPropriedadesNavegacao);
+
+        #endregion
     }
 }
