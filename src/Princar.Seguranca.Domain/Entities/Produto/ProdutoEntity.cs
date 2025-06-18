@@ -3,7 +3,7 @@ using Princar.Core.Domain.Interfaces;
 
 namespace Princar.Seguranca.Domain.Entities.Produto
 {
-    public class ProdutoEntity : EntityBase<Guid>, IAggregateRoot
+    public class ProdutoEntity : EntityBase<int>, IAggregateRoot
     {
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }

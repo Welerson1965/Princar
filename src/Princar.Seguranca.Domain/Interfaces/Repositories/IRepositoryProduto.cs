@@ -3,7 +3,7 @@ using Princar.Seguranca.Domain.Entities.Produto;
 
 namespace Princar.Seguranca.Domain.Interfaces.Repositories
 {
-    public interface IRepositoryProduto : IRepositoryBase<ProdutoEntity, Guid>
+    public interface IRepositoryProduto : IRepositoryBase<ProdutoEntity, int>
     {
     }
 }
