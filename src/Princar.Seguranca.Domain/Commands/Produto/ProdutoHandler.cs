@@ -28,11 +28,20 @@ namespace Princar.Seguranca.Domain.Commands.Produto
                 return Task.FromResult(new CommandResponse(this));
             }
 
-            // Busca produtos cuja descrição contenha o texto informado (case-insensitive)
-            var produtos = _repositoryProduto.ListarPorSemRastreamento(
+            // Divide a descrição em palavras, ignorando espaços extras
+            var termos = request.Descricao
+                .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            // Busca produtos que contenham todos os termos na descrição (case-insensitive)
+            var produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
                 p => !string.IsNullOrEmpty(p.Descricao) &&
-                     p.Descricao.Contains(request.Descricao, StringComparison.OrdinalIgnoreCase)
+                     termos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
             );
+
+            // Garante que cada CodigoProduto seja único no resultado
+            var produtos = produtosFiltrados
+                .DistinctBy(p => p.CodigoProduto)
+                .ToList();
 
             return Task.FromResult(new CommandResponse(produtos, this));
         }
