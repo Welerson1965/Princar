@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Princar.Core.Domain.DTOs;
+using Princar.Seguranca.Domain.Entities.Produto;
 using Princar.Seguranca.Domain.Interfaces.Repositories;
 using prmToolkit.NotificationPattern;
 
@@ -32,11 +33,26 @@ namespace Princar.Seguranca.Domain.Commands.Produto
             var termos = request.Descricao
                 .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-            // Busca produtos que contenham todos os termos na descrição (case-insensitive)
-            var produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
-                p => !string.IsNullOrEmpty(p.Descricao) &&
-                     termos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
-            );
+            IEnumerable<ProdutoEntity> produtosFiltrados;
+
+            if (request.Iniciando == "S" && termos.Length > 0)
+            {
+                var primeiroTermo = termos[0];
+                var outrosTermos = termos.Skip(1).ToArray();
+
+                produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
+                    p => !string.IsNullOrEmpty(p.Descricao) &&
+                         p.Descricao.StartsWith(primeiroTermo, StringComparison.OrdinalIgnoreCase) &&
+                         outrosTermos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
+                );
+            }
+            else
+            {
+                produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
+                    p => !string.IsNullOrEmpty(p.Descricao) &&
+                         termos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
+                );
+            }
 
             // Garante que cada CodigoProduto seja único no resultado
             var produtos = produtosFiltrados
