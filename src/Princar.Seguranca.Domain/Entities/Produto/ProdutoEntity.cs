@@ -10,17 +10,19 @@ namespace Princar.Seguranca.Domain.Entities.Produto
         public decimal Quantidade { get; private set; }
         public int CodigoProduto { get; private set; }
         public string MarcaProduto { get; set; }
+        public string Unidade { get; set; }
 
         //EF
         public ProdutoEntity() { }
 
-        public ProdutoEntity(string descricao, decimal preco, decimal quantidade, int codigoProduto, string marcaProduto)
+        public ProdutoEntity(string descricao, decimal preco, decimal quantidade, int codigoProduto, string marcaProduto, string unidade)
         {
             Descricao = descricao;
             Preco = preco;
             Quantidade = quantidade;
             CodigoProduto = codigoProduto;
             MarcaProduto = marcaProduto;
+            Unidade = unidade;
         }
     }
 }
