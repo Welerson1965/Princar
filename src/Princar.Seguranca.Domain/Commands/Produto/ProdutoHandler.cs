@@ -42,7 +42,6 @@ namespace Princar.Seguranca.Domain.Commands.Produto
 
                 produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
                     p => !string.IsNullOrEmpty(p.Descricao) &&
-                         p.Preco != 0 &&
                          p.Descricao.StartsWith(primeiroTermo, StringComparison.OrdinalIgnoreCase) &&
                          outrosTermos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
                 );
@@ -51,7 +50,6 @@ namespace Princar.Seguranca.Domain.Commands.Produto
             {
                 produtosFiltrados = _repositoryProduto.ListarPorSemRastreamento(
                     p => !string.IsNullOrEmpty(p.Descricao) &&
-                         p.Preco != 0 &&
                          termos.All(t => p.Descricao.Contains(t, StringComparison.OrdinalIgnoreCase))
                 );
             }
