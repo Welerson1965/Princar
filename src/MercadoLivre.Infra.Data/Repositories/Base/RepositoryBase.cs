@@ -19,6 +19,16 @@ namespace MercadoLivre.Infra.Data.Repositories.Base
             DbSet = Context.Set<TEntity>();
         }
 
+        #region Exists
+
+        public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default)
+        {
+            return await DbSet.AsNoTracking().AnyAsync(where, cancellationToken);
+        }
+
+        #endregion
+
         public TEntity ObterPorId(TId id)
         {
             return DbSet.Find(id);
@@ -120,6 +130,20 @@ namespace MercadoLivre.Infra.Data.Repositories.Base
         public async Task AddCollectionAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         {
             await DbSet.AddRangeAsync(entities, cancellationToken);
+        }
+
+        #endregion
+
+        #region Update
+
+        public void Update(TEntity entity)
+        {
+            DbSet.Update(entity);
+        }
+
+        public void UpdateCollection(IEnumerable<TEntity> entities)
+        {
+            DbSet.UpdateRange(entities);
         }
 
         #endregion

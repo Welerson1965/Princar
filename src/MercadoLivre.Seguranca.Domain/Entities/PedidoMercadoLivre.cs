@@ -21,9 +21,6 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public decimal? TotalTaxas { get; set; }
         public string TaxasId { get; set; }
 
-        // Navegabilidade
-        public virtual MercadoLivreParametro Empresa { get; set; }
-
         // EF
         public PedidoMercadoLivre() { }
 

@@ -6,6 +6,13 @@ namespace MercadoLivre.Core.Domain.Interfaces.Base
     public interface IRepositoryBase<TEntity, TId>
         where TEntity : EntityBase<TId>, IAggregateRoot
     {
+
+        #region Exists
+
+        Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> where, CancellationToken cancellationToken = default);
+
+        #endregion
+
         #region Obter Por Id
 
         TEntity ObterPorId(TId id);
@@ -24,11 +31,19 @@ namespace MercadoLivre.Core.Domain.Interfaces.Base
         IEnumerable<TEntity> ListarPorSemRastreamento(Func<TEntity, bool> onde, params string[] incluirPropriedadesNavegacao);
 
         #endregion
+
         #region Add
 
         Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
         Task AddCollectionAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
-    
+
+        #endregion
+
+        #region Update
+
+        void Update(TEntity entity);
+        void UpdateCollection(IEnumerable<TEntity> entities);
+
         #endregion
     }
 }

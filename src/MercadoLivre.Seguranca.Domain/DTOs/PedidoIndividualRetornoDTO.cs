@@ -3,9 +3,9 @@
     public class PedidoIndividualRetornoDTO
     {
         public long id { get; set; }
-        public DateTime date_created { get; set; }
-        public DateTime last_updated { get; set; }
-        public DateTime date_closed { get; set; }
+        public DateTime? date_created { get; set; }
+        public DateTime? last_updated { get; set; }
+        public DateTime? date_closed { get; set; }
         public object pack_id { get; set; }
         public object fulfilled { get; set; }
         public string buying_mode { get; set; }
