@@ -4,7 +4,7 @@ using System.Security.Principal;
 
 namespace MercadoLivre.Seguranca.Domain.Entities
 {
-    public class PedidoItemMercadoLivreEntities : EntityBase<Guid>, IAggregateRoot 
+    public class PedidoItemMercadoLivre : EntityBase<Guid>, IAggregateRoot 
     {
         public string PedidoId { get; set; }
         public string ItemId { get; set; }
@@ -18,12 +18,12 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public decimal? TaxaVenda { get; set; }
 
         // Navegabilidade
-        public virtual PedidoMercadoLivreEntities Pedido { get; set; }
+        public virtual PedidoMercadoLivre Pedido { get; set; }
 
         // EF
-        public PedidoItemMercadoLivreEntities() { }
+        public PedidoItemMercadoLivre() { }
 
-        public PedidoItemMercadoLivreEntities(string pedidoId, string itemId, string descricao, string categoriaId, string sku, decimal quantidade, decimal valorUnitario, decimal valorFullUnitario, string moeda, decimal? taxaVenda = null)
+        public PedidoItemMercadoLivre(string pedidoId, string itemId, string descricao, string categoriaId, string sku, decimal quantidade, decimal valorUnitario, decimal valorFullUnitario, string moeda, decimal? taxaVenda = null)
         {
             Id = Guid.NewGuid();
             PedidoId = pedidoId;

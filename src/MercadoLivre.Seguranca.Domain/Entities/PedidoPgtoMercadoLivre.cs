@@ -3,7 +3,7 @@ using MercadoLivre.Core.Domain.Interfaces;
 
 namespace MercadoLivre.Seguranca.Domain.Entities
 {
-    public class PedidoPgtoMercadoLivreEntities : EntityBase<Guid>, IAggregateRoot
+    public class PedidoPgtoMercadoLivre : EntityBase<Guid>, IAggregateRoot
     {
         public string PedidoId { get; set; }
         public string IdML { get; set; }
@@ -26,9 +26,9 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public decimal? TaxaMarketPlace { get; set; }
 
         //EF
-        public PedidoPgtoMercadoLivreEntities() { }
+        public PedidoPgtoMercadoLivre() { }
 
-        public PedidoPgtoMercadoLivreEntities(string pedidoId, string idML, string pagamentoId, string coletorId, string cartaoId, string siteId, string tipoPagamento, string status, string statusDetalhe, decimal valorPagto, decimal? valorDevolvida, decimal? valorTaxas, decimal? valorCupom, decimal? valorAcrescimo, decimal? totalPagamento, DateTime? dataAprovacao, DateTime? dataCriacao, DateTime? dataModificacao, decimal? taxaMarketPlace)
+        public PedidoPgtoMercadoLivre(string pedidoId, string idML, string pagamentoId, string coletorId, string cartaoId, string siteId, string tipoPagamento, string status, string statusDetalhe, decimal valorPagto, decimal? valorDevolvida, decimal? valorTaxas, decimal? valorCupom, decimal? valorAcrescimo, decimal? totalPagamento, DateTime? dataAprovacao, DateTime? dataCriacao, DateTime? dataModificacao, decimal? taxaMarketPlace)
         {
             Id = Guid.NewGuid();
             PedidoId = pedidoId;

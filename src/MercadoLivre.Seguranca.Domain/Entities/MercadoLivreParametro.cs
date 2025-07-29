@@ -3,7 +3,7 @@ using MercadoLivre.Core.Domain.Interfaces;
 
 namespace MercadoLivre.Seguranca.Domain.Entities
 {
-    public class MercadoLivreEntities : EntityBase<Guid>, IAggregateRoot
+    public class MercadoLivreParametro : EntityBase<Guid>, IAggregateRoot
     {
         public string Cnpj { get; set; }
         public string NomeEmpresa { get; set; }
@@ -16,9 +16,9 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public string VendedorML { get; set; }
 
         //EF
-        public MercadoLivreEntities() { }
+        public MercadoLivreParametro() { }
 
-        public MercadoLivreEntities(string cnpj, string nomeEmpresa, string idClienteML, string chaveSecretaML, string uriML, string codeML, string tokenML, string refreshTokenML, string vendedorML)
+        public MercadoLivreParametro(string cnpj, string nomeEmpresa, string idClienteML, string chaveSecretaML, string uriML, string codeML, string tokenML, string refreshTokenML, string vendedorML)
         {
             Id = Guid.NewGuid();
             Cnpj = cnpj;

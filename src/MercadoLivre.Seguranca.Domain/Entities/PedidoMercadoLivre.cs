@@ -3,7 +3,7 @@ using MercadoLivre.Core.Domain.Interfaces;
 
 namespace MercadoLivre.Seguranca.Domain.Entities
 {
-    public class PedidoMercadoLivreEntities : EntityBase<string>, IAggregateRoot
+    public class PedidoMercadoLivre : EntityBase<string>, IAggregateRoot
     {
         public string EmpresaId { get; set; }
         public DateTime? DataCriacao { get; set; }
@@ -22,12 +22,12 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public string TaxasId { get; set; }
 
         // Navegabilidade
-        public virtual MercadoLivreEntities Empresa { get; set; }
+        public virtual MercadoLivreParametro Empresa { get; set; }
 
         // EF
-        public PedidoMercadoLivreEntities() { }
+        public PedidoMercadoLivre() { }
 
-        public PedidoMercadoLivreEntities(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null)
+        public PedidoMercadoLivre(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null)
         {
             Id = id;
             EmpresaId = empresaId;

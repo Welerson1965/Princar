@@ -3,7 +3,7 @@ using MercadoLivre.Seguranca.Domain.Entities;
 
 namespace MercadoLivre.Seguranca.Domain.Interfaces.Repositories
 {
-    public interface IRepositoryPedidoMercadoLivre : IRepositoryBase<PedidoMercadoLivreEntities, string>
+    public interface IRepositoryPedidoMercadoLivre : IRepositoryBase<PedidoMercadoLivre, string>
     {
     }
 }

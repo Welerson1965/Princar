@@ -11,13 +11,18 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
     public class ProdutoHandler : Notifiable, IRequestHandler<NotificacoesPrincarRequest, CommandResponse>
     {
         private readonly IRepositoryPrincarNotificacoes _repositoryPrincarNotificacoes;
-        private readonly IUnitOfWork unitOfWork;
         private readonly PrincarValidarHandler _princarValidarHandler;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IMediator mediator;
 
-        public ProdutoHandler(IRepositoryPrincarNotificacoes repositoryPrincarNotificacoes, IUnitOfWork unitOfWork)
+        public ProdutoHandler(
+            IRepositoryPrincarNotificacoes repositoryPrincarNotificacoes,
+            IUnitOfWork unitOfWork,
+            IMediator mediator)
         {
             _repositoryPrincarNotificacoes = repositoryPrincarNotificacoes;
             this.unitOfWork = unitOfWork;
+            this.mediator = mediator;
         }
 
         public async Task<CommandResponse> Handle(NotificacoesPrincarRequest request, CancellationToken cancellationToken)
@@ -38,16 +43,16 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
                 dataRecebimento: request.received
             );
 
-            await _repositoryPrincarNotificacoes.AddAsync(notificacao, cancellationToken);
+            //await _repositoryPrincarNotificacoes.AddAsync(notificacao, cancellationToken);
 
-            unitOfWork.Commit();
+            //unitOfWork.Commit();
 
-            PrincarValidarRequest validarRequest = new PrincarValidarRequest
+            var validarRequest = new PrincarValidarRequest
             {
                 Recurso = request.resource
             };
 
-            var validarResponse = await _princarValidarHandler.Handle(validarRequest, cancellationToken);
+            var resultado = await mediator.Send(validarRequest);
 
             var response = new NotificacoesPrincarResponse("Notificação processada com sucesso");
 

@@ -11,10 +11,10 @@ namespace MercadoLivre.Infra.Data.Context
         public MercadoLivreContext(DbContextOptions<MercadoLivreContext> options) : base(options) { }
 
         public DbSet<PrincarNotificacoesEntities> PrincarNotificacoes { get; set; }
-        public DbSet<MercadoLivreEntities> MercadoLivreEntities { get; set; }
-        public DbSet<PedidoMercadoLivreEntities> pedidoMercadoLivreEntities { get; set; }
-        public DbSet<PedidoItemMercadoLivreEntities> pedidoItemMercadoLivreEntities { get; set; }
-        public DbSet<PedidoPgtoMercadoLivreEntities> pedidoPgtoMercadoLivreEntities { get; set; }
+        public DbSet<MercadoLivreParametro> MercadoLivreParametro { get; set; }
+        public DbSet<PedidoMercadoLivre> PedidoMercadoLivre { get; set; }
+        public DbSet<PedidoItemMercadoLivre> PedidoItemMercadoLivre { get; set; }
+        public DbSet<PedidoPgtoMercadoLivre> PedidoPgtoMercadoLivre { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
