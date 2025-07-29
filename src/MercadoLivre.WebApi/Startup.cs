@@ -18,6 +18,7 @@ namespace MercadoLivre.WebApi
             services.ConfigureDbContext(Configuration.GetConnectionString("MercadoLivreConnection"));
             services.ConfigureUnitOfWork();
             services.ConfigureRepository();
+            services.ConfigureMercadoLivreExterno();
             services.ConfigureMediatorCoreDomain();
             services.ConfigureMediatorSegurancaDomain();
             services.ConfigureAuthentication(Configuration["SecurityKey"]);

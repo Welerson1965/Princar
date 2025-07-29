@@ -1,12 +1,14 @@
 ﻿using MercadoLivre.Core.Domain.Interfaces.UoW;
 using MercadoLivre.Infra.Data.Context;
+using MercadoLivre.Infra.Data.External.MercadoLivre;
+using MercadoLivre.Infra.Data.Repositories.Seguranca;
 using MercadoLivre.Infra.Data.UoW;
+using MercadoLivre.Seguranca.Domain.Interfaces.MercadoLivre;
+using MercadoLivre.Seguranca.Domain.Interfaces.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Princar.Infra.Data.Repositories.Seguranca;
-using Princar.Seguranca.Domain.Interfaces.Repositories;
 using System.Text;
 
 namespace MercadoLivre.WebApi
@@ -106,6 +108,10 @@ namespace MercadoLivre.WebApi
         public static void ConfigureRepository(this IServiceCollection services)
         {
             services.AddTransient<IRepositoryPrincarNotificacoes, RepositoryPrincarNotificacoes>();
+        }
+        public static void ConfigureMercadoLivreExterno(this IServiceCollection services)
+        {
+            services.AddTransient<IMercadoLivreApi, MercadoLivreApi>();
         }
     }
 }

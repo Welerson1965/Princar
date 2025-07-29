@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using MercadoLivre.Core.Domain.DTOs;
 
-namespace MercadoLivre.Seguranca.Domain.Commands.Princar
+namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
 {
     public class NotificacoesPrincarRequest : IRequest<CommandResponse>
     {

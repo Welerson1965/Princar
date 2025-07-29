@@ -1,4 +1,4 @@
-﻿namespace MercadoLivre.Seguranca.Domain.Commands.Princar
+﻿namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
 {
     public class NotificacoesPrincarResponse(string mensagem)
     {

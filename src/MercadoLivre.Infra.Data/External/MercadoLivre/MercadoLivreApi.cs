@@ -1,7 +1,7 @@
 ﻿using MercadoLivre.DTOs;
 using MercadoLivre.Seguranca.Domain.Interfaces.MercadoLivre;
+using MercadoLivre.Seguranca.Domain.Interfaces.Repositories;
 using Newtonsoft.Json;
-using Princar.Seguranca.Domain.Interfaces.Repositories;
 using prmToolkit.NotificationPattern;
 using RestSharp;
 

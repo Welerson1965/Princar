@@ -1,16 +1,18 @@
 ﻿using MediatR;
 using MercadoLivre.Core.Domain.DTOs;
 using MercadoLivre.Core.Domain.Interfaces.UoW;
+using MercadoLivre.Seguranca.Domain.Commands.Princar.Validar;
 using MercadoLivre.Seguranca.Domain.Entities;
-using Princar.Seguranca.Domain.Interfaces.Repositories;
+using MercadoLivre.Seguranca.Domain.Interfaces.Repositories;
 using prmToolkit.NotificationPattern;
 
-namespace MercadoLivre.Seguranca.Domain.Commands.Princar
+namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
 {
     public class ProdutoHandler : Notifiable, IRequestHandler<NotificacoesPrincarRequest, CommandResponse>
     {
         private readonly IRepositoryPrincarNotificacoes _repositoryPrincarNotificacoes;
         private readonly IUnitOfWork unitOfWork;
+        private readonly PrincarValidarHandler _princarValidarHandler;
 
         public ProdutoHandler(IRepositoryPrincarNotificacoes repositoryPrincarNotificacoes, IUnitOfWork unitOfWork)
         {
@@ -39,6 +41,13 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar
             await _repositoryPrincarNotificacoes.AddAsync(notificacao, cancellationToken);
 
             unitOfWork.Commit();
+
+            PrincarValidarRequest validarRequest = new PrincarValidarRequest
+            {
+                Recurso = request.resource
+            };
+
+            var validarResponse = await _princarValidarHandler.Handle(validarRequest, cancellationToken);
 
             var response = new NotificacoesPrincarResponse("Notificação processada com sucesso");
 

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using MercadoLivre.Core.Domain.Interfaces.UoW;
-using MercadoLivre.Seguranca.Domain.Commands.Princar;
+using MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes;
 using MercadoLivre.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
