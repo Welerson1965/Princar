@@ -1,0 +1,6 @@
+@MercadoLivre_HostAddress = http://localhost:5277
+
+GET {{MercadoLivre_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

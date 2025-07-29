@@ -1,6 +1,0 @@
-@Princar_HostAddress = http://localhost:5277
-
-GET {{Princar_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
