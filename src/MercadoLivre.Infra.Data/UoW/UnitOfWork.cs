@@ -25,6 +25,5 @@ namespace MercadoLivre.Infra.Data.UoW
                 return new CommitResult(false, ex.Message, ex.InnerException?.Message);
             }
         }
-
     }
 }

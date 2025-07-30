@@ -32,6 +32,19 @@ namespace MercadoLivre.Core.Domain.Interfaces.Base
 
         #endregion
 
+        #region GetBy
+
+        Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default);
+
+        Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] navigationProperties);
+
+        Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default, params string[] navigationProperties);
+
+        #endregion
+
         #region Add
 
         Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
@@ -43,6 +56,13 @@ namespace MercadoLivre.Core.Domain.Interfaces.Base
 
         void Update(TEntity entity);
         void UpdateCollection(IEnumerable<TEntity> entities);
+
+        #endregion
+
+        #region Delete
+
+        void DeleteAsync(TEntity entity);
+        void DeleteCollectionAsync(IEnumerable<TEntity> entities);
 
         #endregion
     }

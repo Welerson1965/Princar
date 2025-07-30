@@ -129,7 +129,7 @@
 
     public class PaymentIndividual
     {
-        public long id { get; set; }
+        public string id { get; set; }
         public long order_id { get; set; }
         public int payer_id { get; set; }
         public CollectorIndividual collector { get; set; }

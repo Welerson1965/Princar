@@ -120,6 +120,7 @@ namespace MercadoLivre.Infra.Data.Repositories.Base
         }
 
         #endregion
+
         #region Add
 
         public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
@@ -144,6 +145,67 @@ namespace MercadoLivre.Infra.Data.Repositories.Base
         public void UpdateCollection(IEnumerable<TEntity> entities)
         {
             DbSet.UpdateRange(entities);
+        }
+
+        #endregion
+
+        #region Count
+
+        public async Task<int> CountAsync(CancellationToken cancellationToken = default)
+        {
+            return await DbSet.AsNoTracking().CountAsync(cancellationToken);
+        }
+
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default)
+        {
+            return await DbSet.AsNoTracking().CountAsync(where, cancellationToken);
+        }
+
+        #endregion
+
+        #region GetBy
+
+        public async Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default)
+        {
+            return tracking
+                ? await DbSet.FirstOrDefaultAsync(where, cancellationToken)
+                : await DbSet.AsNoTracking().FirstOrDefaultAsync(where, cancellationToken);
+        }
+
+        public async Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default, params Expression<Func<TEntity, object>>[] navigationProperties)
+        {
+            var query = DbSet.AsQueryable();
+            query = Include(query, navigationProperties);
+            return tracking
+                ? await query.FirstOrDefaultAsync(where, cancellationToken)
+                : await query.AsNoTracking().FirstOrDefaultAsync(where, cancellationToken);
+        }
+
+        public async Task<TEntity?> GetByAsync(bool tracking, Expression<Func<TEntity, bool>> where,
+            CancellationToken cancellationToken = default, params string[] navigationProperties)
+        {
+            var query = DbSet.AsQueryable();
+            query = Include(query, navigationProperties);
+            return tracking
+                ? await query.FirstOrDefaultAsync(where, cancellationToken)
+                : await query.AsNoTracking().FirstOrDefaultAsync(where, cancellationToken);
+        }
+
+        #endregion
+
+        #region Delete
+
+        public void DeleteAsync(TEntity entity)
+        {
+            DbSet.Remove(entity);
+        }
+
+        public void DeleteCollectionAsync(IEnumerable<TEntity> entities)
+        {
+            DbSet.RemoveRange(entities);
         }
 
         #endregion

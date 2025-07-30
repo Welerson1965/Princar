@@ -43,9 +43,9 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
                 dataRecebimento: request.received
             );
 
-            //await _repositoryPrincarNotificacoes.AddAsync(notificacao, cancellationToken);
+            await _repositoryPrincarNotificacoes.AddAsync(notificacao, cancellationToken);
 
-            //unitOfWork.Commit();
+            unitOfWork.Commit();
 
             var validarRequest = new PrincarValidarRequest
             {

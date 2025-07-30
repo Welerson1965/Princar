@@ -15,14 +15,20 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
         private readonly IMercadoLivreApi _mercadoLivreApi;
         private readonly IUnitOfWork unitOfWork;
         private IRepositoryPedidoMercadoLivre _repositoryPedidoMercadoLivre;
+        private IRepositoryPedidoItemMercadoLivre _repositoryPedidoItemMercadoLivre;
+        private IRepositoryPedidoPgtoMercadoLivre _repositoryPedidoPgtoMercadoLivre;
 
         public PrincarValidarHandler(
             IMercadoLivreApi mercadoLivreApi,
             IRepositoryPedidoMercadoLivre repositoryPedidoMercadoLivre,
+            IRepositoryPedidoItemMercadoLivre repositoryPedidoItemMercadoLivre,
+            IRepositoryPedidoPgtoMercadoLivre repositoryPedidoPgtoMercadoLivre,
             IUnitOfWork unitOfWork)
         {
             _mercadoLivreApi = mercadoLivreApi;
             _repositoryPedidoMercadoLivre = repositoryPedidoMercadoLivre;
+            _repositoryPedidoItemMercadoLivre = repositoryPedidoItemMercadoLivre;
+            _repositoryPedidoPgtoMercadoLivre = repositoryPedidoPgtoMercadoLivre;
             this.unitOfWork = unitOfWork;
         }
 
@@ -111,6 +117,145 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado);
                      
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
+                    }
+                }
+
+                //*******************************************************//
+                // Procedimento para salvar ou atualizar itens do pedido
+                //*******************************************************//
+                if (pedido.order_items != null )
+                {
+                    foreach (var item in pedido.order_items)
+                    {
+                        var guid = Guid.NewGuid();
+                        var qtdeFormatada = item.quantity.ToString("N6", new System.Globalization.CultureInfo("pt-BR"));
+                        var valorunitFormatado = item.unit_price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
+                        var valorfullFormatado = item.full_unit_price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
+                        var taxaVendaFormatada = item.sale_fee.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+
+                        // Verifica se o item já existe
+                        var itemExiste = await _repositoryPedidoItemMercadoLivre.ExistsAsync(
+                            p => p.PedidoId == pedidoId &&
+                                 p.ItemId == item.item.id, cancellationToken);
+                        if (!itemExiste)
+                        {
+                            // Criar um novo item do pedido na tabela PedidoItemMercadoLivre
+                            var pedidoItem = new PedidoItemMercadoLivre
+                            {
+                                Id = guid,
+                                PedidoId = pedidoId,
+                                ItemId = item.item.id,
+                                Descricao = item.item.title,
+                                CategoriaId = item.item.category_id,
+                                SKU = item.item.seller_sku,
+                                Quantidade = Convert.ToDecimal(qtdeFormatada),
+                                ValorUnitario = Convert.ToDecimal(valorunitFormatado),
+                                ValorFullUnitario = Convert.ToDecimal(valorfullFormatado),
+                                Moeda = item.currency_id,
+                                TaxaVenda = string.IsNullOrEmpty(taxaVendaFormatada) ? null : Convert.ToDecimal(taxaVendaFormatada),
+                            };
+
+                            await _repositoryPedidoItemMercadoLivre.AddAsync(pedidoItem, cancellationToken);
+                        }
+                        else
+                        {
+                            // Atualizar o item do pedido existente na tabela PedidoItemMercadoLivre
+                            var pedidoItem = _repositoryPedidoItemMercadoLivre.GetByAsync(
+                                false, 
+                                p => p.PedidoId == pedidoId &&
+                                     p.ItemId == item.item.id, cancellationToken);
+                            if (pedidoItem != null)
+                            {
+                                var pedidoItemMercadoLivre = pedidoItem.Result;
+
+                                pedidoItemMercadoLivre.Descricao = item.item.title;
+                                pedidoItemMercadoLivre.CategoriaId = item.item.category_id;
+                                pedidoItemMercadoLivre.SKU = item.item.seller_sku;
+                                pedidoItemMercadoLivre.Quantidade = Convert.ToDecimal(qtdeFormatada);
+                                pedidoItemMercadoLivre.ValorUnitario = Convert.ToDecimal(valorunitFormatado);
+                                pedidoItemMercadoLivre.ValorFullUnitario = Convert.ToDecimal(valorfullFormatado);
+                                pedidoItemMercadoLivre.Moeda = item.currency_id;
+                                pedidoItemMercadoLivre.TaxaVenda = string.IsNullOrEmpty(taxaVendaFormatada) ? null : Convert.ToDecimal(taxaVendaFormatada);
+
+                                _repositoryPedidoItemMercadoLivre.Update(pedidoItemMercadoLivre);
+                            }
+                        }
+                    }
+                }
+
+                //*******************************************************//
+                // Procedimento para salvar ou atualizar Pagto do pedido
+                //*******************************************************//
+                if (pedido.payments != null)
+                {
+                    foreach (var pagamento in pedido.payments)
+                    {
+                        var guidPagamento = Guid.NewGuid();
+                        var valorPagtoFormatado = pagamento.transaction_amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
+                        var valorDevolvidaFormatado = pagamento.transaction_amount_refunded?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var valorTaxasFormatado = pagamento.taxes_amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var valorCupomFormatado = pagamento.coupon_amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var valorAcrescimoFormatado = pagamento.overpaid_amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var totalPagamentoFormatado = pagamento.total_paid_amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var taxaMarketPlaceFormatada = pagamento.marketplace_fee.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+
+                        var pagamentoExiste = await _repositoryPedidoPgtoMercadoLivre.ExistsAsync(
+                            p => p.PedidoId == pedidoId &&
+                                 p.IdML == pagamento.id, cancellationToken);
+                        if (!pagamentoExiste)
+                        {
+                            // Criar um novo pagamento do pedido na tabela PedidoPgtoMercadoLivre
+                            var pedidoPgtoMercadoLivre = new PedidoPgtoMercadoLivre
+                            {
+                                Id = guidPagamento,
+                                PedidoId = pedidoId,
+                                IdML = pagamento.id,
+                                PagamentoId = pagamento.payer_id.ToString(),
+                                ColetorId = pagamento.collector.id.ToString(),
+                                CartaoId = pagamento.card_id?.ToString(),
+                                SiteId = pagamento.site_id,
+                                TipoPagamento = pagamento.payment_method_id,
+                                Status = pagamento.status,
+                                StatusDetalhe = pagamento.status_detail,
+                                ValorPagto = Convert.ToDecimal(valorPagtoFormatado),
+                                ValorDevolvida = Convert.ToDecimal(valorDevolvidaFormatado),
+                                ValorTaxas = Convert.ToDecimal(valorTaxasFormatado),
+                                ValorCupom = Convert.ToDecimal(valorCupomFormatado),
+                                ValorAcrescimo = Convert.ToDecimal(valorAcrescimoFormatado),
+                                TotalPagamento = Convert.ToDecimal(totalPagamentoFormatado),
+                                TaxaMarketPlace = Convert.ToDecimal(taxaMarketPlaceFormatada),
+                                DataAprovacao = pagamento.date_approved,
+                                DataCriacao = pagamento.date_created,
+                                DataModificacao = pagamento.date_last_modified
+                            };
+
+                            await _repositoryPedidoPgtoMercadoLivre.AddAsync(pedidoPgtoMercadoLivre, cancellationToken);
+                        }
+                        else
+                        {
+                            // Atualizar o pagamento do pedido existente na tabela PedidoPgtoMercadoLivre
+                            var pedidoPgtoMercadoLivre = _repositoryPedidoPgtoMercadoLivre.GetByAsync(
+                                false, 
+                                p => p.PedidoId == pedidoId &&
+                                     p.IdML == pagamento.id, cancellationToken);
+                            if (pedidoPgtoMercadoLivre != null)
+                            {
+                                var pgtoMercadoLivre = pedidoPgtoMercadoLivre.Result;
+
+                                pgtoMercadoLivre.DataAprovacao = pagamento.date_approved;
+                                pgtoMercadoLivre.DataCriacao = pagamento.date_created;
+                                pgtoMercadoLivre.DataModificacao = pagamento.date_last_modified;
+                                pgtoMercadoLivre.ValorPagto = Convert.ToDecimal(valorPagtoFormatado);
+                                pgtoMercadoLivre.ValorDevolvida = Convert.ToDecimal(valorDevolvidaFormatado);
+                                pgtoMercadoLivre.ValorTaxas = Convert.ToDecimal(valorTaxasFormatado);
+                                pgtoMercadoLivre.ValorCupom = Convert.ToDecimal(valorCupomFormatado);
+                                pgtoMercadoLivre.ValorAcrescimo = Convert.ToDecimal(valorAcrescimoFormatado);
+                                pgtoMercadoLivre.TotalPagamento = Convert.ToDecimal(totalPagamentoFormatado);
+                                pgtoMercadoLivre.TaxaMarketPlace = Convert.ToDecimal(taxaMarketPlaceFormatada);
+
+                                _repositoryPedidoPgtoMercadoLivre.Update(pgtoMercadoLivre);
+                            }
+                        }
                     }
                 }
 
