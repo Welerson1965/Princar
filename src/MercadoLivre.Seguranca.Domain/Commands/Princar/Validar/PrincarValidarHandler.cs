@@ -17,18 +17,21 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
         private IRepositoryPedidoMercadoLivre _repositoryPedidoMercadoLivre;
         private IRepositoryPedidoItemMercadoLivre _repositoryPedidoItemMercadoLivre;
         private IRepositoryPedidoPgtoMercadoLivre _repositoryPedidoPgtoMercadoLivre;
+        private IRepositoryPedidoEnvioMercadoLivre _repositoryPedidoEnvioMercadoLivre;
 
         public PrincarValidarHandler(
             IMercadoLivreApi mercadoLivreApi,
             IRepositoryPedidoMercadoLivre repositoryPedidoMercadoLivre,
             IRepositoryPedidoItemMercadoLivre repositoryPedidoItemMercadoLivre,
             IRepositoryPedidoPgtoMercadoLivre repositoryPedidoPgtoMercadoLivre,
+            IRepositoryPedidoEnvioMercadoLivre repositoryPedidoEnvioMercadoLivre,
             IUnitOfWork unitOfWork)
         {
             _mercadoLivreApi = mercadoLivreApi;
             _repositoryPedidoMercadoLivre = repositoryPedidoMercadoLivre;
             _repositoryPedidoItemMercadoLivre = repositoryPedidoItemMercadoLivre;
             _repositoryPedidoPgtoMercadoLivre = repositoryPedidoPgtoMercadoLivre;
+            _repositoryPedidoEnvioMercadoLivre = repositoryPedidoEnvioMercadoLivre;
             this.unitOfWork = unitOfWork;
         }
 
@@ -59,6 +62,15 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                 if (pedido == null)
                 {
                     AddNotification("PrincarValidar", "Pedido não encontrado.");
+                    return new CommandResponse(this);
+                }
+
+                // Buscar o envio do pedido usando o ID do envio
+                var pedidoEnvio = _mercadoLivreApi.BuscarPedidoEnvio(pedido.shipping?.id.ToString(), token.access_token);
+
+                if (pedidoEnvio == null)
+                {
+                    AddNotification("PrincarValidar", "Pedido envio não encontrado.");
                     return new CommandResponse(this);
                 }
 
@@ -117,6 +129,59 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado);
                      
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
+                    }
+                }
+
+                //**************************************************************//
+                // Procedimento para salvar ou atualizar o envio do pedido
+                //**************************************************************//
+                var custoBase = pedidoEnvio.base_cost.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                var custoPedido = pedidoEnvio.order_cost.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+
+                var pedidoEnvioExiste = await _repositoryPedidoEnvioMercadoLivre.ExistsAsync(p => p.PedidoId == pedidoId, cancellationToken);
+
+                if (!pedidoEnvioExiste)
+                {
+                    // Criar um novo envio do pedido na tabela PedidoEnvioMercadoLivre
+                    var pedidoEnvioMercadoLivre = new PedidoEnvioMercadoLivre
+                    {
+                        Id = Guid.NewGuid(),
+                        PedidoId = pedidoId,
+                        CustoBase = Convert.ToDecimal(custoBase),
+                        CustoPedido = Convert.ToDecimal(custoPedido),
+                        DataEnvio = pedidoEnvio.status_history.date_shipped,
+                        DataRetorno = pedidoEnvio.status_history.date_returned,
+                        DataEntrega = pedidoEnvio.status_history.date_delivered,
+                        DataVisita = pedidoEnvio.status_history.date_first_visit,
+                        DataNaoEntrega = pedidoEnvio.status_history.date_not_delivered,
+                        DataCancelamento = pedidoEnvio.status_history.date_cancelled,
+                        DataManipulacao = pedidoEnvio.status_history.date_handling,
+                        DataLiberacaoEntrega = pedidoEnvio.status_history.date_ready_to_ship
+                    };
+
+                    await _repositoryPedidoEnvioMercadoLivre.AddAsync(pedidoEnvioMercadoLivre, cancellationToken);
+                }
+                else
+                {
+                    // Atualizar o envio do pedido existente na tabela PedidoEnvioMercadoLivre
+                    var pedidoEnvioMercadoLivre = _repositoryPedidoEnvioMercadoLivre.GetByAsync(false, p => p.PedidoId == pedidoId, cancellationToken);
+
+                    if (pedidoEnvioMercadoLivre != null)
+                    {
+                        var envioMercadoLivre = pedidoEnvioMercadoLivre.Result;
+
+                        envioMercadoLivre.CustoBase = Convert.ToDecimal(custoBase);
+                        envioMercadoLivre.CustoPedido = Convert.ToDecimal(custoPedido);
+                        envioMercadoLivre.DataEnvio = pedidoEnvio.status_history.date_shipped;
+                        envioMercadoLivre.DataRetorno = pedidoEnvio.status_history.date_returned;
+                        envioMercadoLivre.DataEntrega = pedidoEnvio.status_history.date_delivered;
+                        envioMercadoLivre.DataVisita = pedidoEnvio.status_history.date_first_visit;
+                        envioMercadoLivre.DataNaoEntrega = pedidoEnvio.status_history.date_not_delivered;
+                        envioMercadoLivre.DataCancelamento = pedidoEnvio.status_history.date_cancelled;
+                        envioMercadoLivre.DataManipulacao = pedidoEnvio.status_history.date_handling;
+                        envioMercadoLivre.DataLiberacaoEntrega = pedidoEnvio.status_history.date_ready_to_ship;
+
+                        _repositoryPedidoEnvioMercadoLivre.Update(envioMercadoLivre);
                     }
                 }
 

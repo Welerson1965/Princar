@@ -15,6 +15,7 @@ namespace MercadoLivre.Infra.Data.Context
         public DbSet<PedidoMercadoLivre> PedidoMercadoLivre { get; set; }
         public DbSet<PedidoItemMercadoLivre> PedidoItemMercadoLivre { get; set; }
         public DbSet<PedidoPgtoMercadoLivre> PedidoPgtoMercadoLivre { get; set; }
+        public DbSet<PedidoEnvioMercadoLivre> PedidoEnvioMercadoLivre { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

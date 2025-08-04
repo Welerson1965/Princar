@@ -1,4 +1,5 @@
 ﻿using MercadoLivre.DTOs;
+using MercadoLivre.Seguranca.Domain.DTOs;
 using MercadoLivre.Seguranca.Domain.Interfaces.MercadoLivre;
 using MercadoLivre.Seguranca.Domain.Interfaces.Repositories;
 using Newtonsoft.Json;
@@ -76,6 +77,32 @@ namespace MercadoLivre.Infra.Data.External.MercadoLivre
             {
                 pedidoIndividualRetornoDTO = JsonConvert.DeserializeObject<PedidoIndividualRetornoDTO>(response.Content);
                 return pedidoIndividualRetornoDTO;
+            }
+
+            return null;
+        }
+
+        //*********************************************************//
+        // Buscar o Envio do Pedido pelo ID
+        //*********************************************************//
+        public PedidoEnvioRetornoDTO BuscarPedidoEnvio(string envioId, string token)
+        {
+            var pedidoEnvioRetornoDTO = new PedidoEnvioRetornoDTO();
+
+            var url = $"https://api.mercadolibre.com/shipments/{envioId}";
+
+            var client = new RestClient(url);
+
+            var request = new RestRequest(Method.GET)
+                .AddHeader("Authorization", $"Bearer {token}")
+                .AddHeader("Accept", "application/json");
+
+            var response = client.Execute(request);
+
+            if (response.IsSuccessful)
+            {
+                pedidoEnvioRetornoDTO = JsonConvert.DeserializeObject<PedidoEnvioRetornoDTO>(response.Content);
+                return pedidoEnvioRetornoDTO;
             }
 
             return null;

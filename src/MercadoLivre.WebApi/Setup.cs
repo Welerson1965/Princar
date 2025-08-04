@@ -112,6 +112,7 @@ namespace MercadoLivre.WebApi
             services.AddTransient<IRepositoryPedidoMercadoLivre, RepositoryPedidoMercadoLivre>();
             services.AddTransient<IRepositoryPedidoItemMercadoLivre, RepositoryPedidoItemMercadoLivre>();
             services.AddTransient<IRepositoryPedidoPgtoMercadoLivre, RepositoryPedidoPgtoMercadoLivre>();
+            services.AddTransient<IRepositoryPedidoEnvioMercadoLivre, RepositoryPedidoEnvioMercadoLivre>();
         }
         public static void ConfigureMercadoLivreExterno(this IServiceCollection services)
         {
