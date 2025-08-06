@@ -104,6 +104,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         NickNameCliente = pedido.buyer?.nickname,
                         NomeCliente = nomeCliente,
                         TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado),
+                        TipoEntrega = pedidoEnvio.logistic_type
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -127,7 +128,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.NickNameCliente = pedido.buyer?.nickname;
                         pedidoMercadoLivre.NomeCliente = nomeCliente;
                         pedidoMercadoLivre.TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado);
-                     
+                        pedidoMercadoLivre.TipoEntrega = pedidoEnvio.logistic_type;
+
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }
                 }

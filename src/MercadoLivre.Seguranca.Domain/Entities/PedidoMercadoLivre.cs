@@ -20,11 +20,12 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public string NomeCliente { get; set; }
         public decimal? TotalTaxas { get; set; }
         public string TaxasId { get; set; }
+        public string TipoEntrega { get; set; }
 
         // EF
         public PedidoMercadoLivre() { }
 
-        public PedidoMercadoLivre(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null)
+        public PedidoMercadoLivre(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null)
         {
             Id = id;
             EmpresaId = empresaId;
@@ -42,9 +43,10 @@ namespace MercadoLivre.Seguranca.Domain.Entities
             NomeCliente = nomeCliente;
             TotalTaxas = totalTaxas;
             TaxasId = taxasId;
+            TipoEntrega = tipoEntrega;
         }
 
-        public void Atualizar(DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null)
+        public void Atualizar(DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null)
         {
             DataAlteracao = dataAlteracao;
             DataFechamento = dataFechamento;
@@ -59,6 +61,7 @@ namespace MercadoLivre.Seguranca.Domain.Entities
             NomeCliente = nomeCliente;
             TotalTaxas = totalTaxas;
             TaxasId = taxasId;
+            TipoEntrega = tipoEntrega;
         }
     }
 }
