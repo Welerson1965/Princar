@@ -108,6 +108,32 @@ namespace MercadoLivre.Infra.Data.External.MercadoLivre
             return null;
         }
 
+        //*********************************************************//
+        // Buscar Nota Fiscal do Pedido pelo ID
+        //*********************************************************//
+        public NotaFiscalRetornoDTO BuscarNotaFiscal(string pedidoId, string token)
+        {
+            var notaFiscalRetornoDTO = new NotaFiscalRetornoDTO();
+
+            var url = $"https://api.mercadolibre.com/users/134608322/invoices/orders/{pedidoId}";
+
+            var client = new RestClient(url);
+
+            var request = new RestRequest(Method.GET)
+                .AddHeader("Authorization", $"Bearer {token}")
+                .AddHeader("Accept", "application/json");
+
+            var response = client.Execute(request);
+
+            if (response.IsSuccessful)
+            {
+                notaFiscalRetornoDTO = JsonConvert.DeserializeObject<NotaFiscalRetornoDTO>(response.Content);
+                return notaFiscalRetornoDTO;
+            }
+
+            return null;
+        }
+
         //********************************************************//
         // Buscar parâmetros de configuração do Mercado Livre
         //********************************************************//

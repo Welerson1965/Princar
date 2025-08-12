@@ -8,5 +8,6 @@ namespace MercadoLivre.Seguranca.Domain.Interfaces.MercadoLivre
         TokenRetornoDTO BuscarToken(Guid empresaId);
         PedidoIndividualRetornoDTO BuscarPedidoIndividual(string pedidoId, string token);
         PedidoEnvioRetornoDTO BuscarPedidoEnvio(string envioId, string token);
+        NotaFiscalRetornoDTO BuscarNotaFiscal(string pedidoId, string token);
     }
 }

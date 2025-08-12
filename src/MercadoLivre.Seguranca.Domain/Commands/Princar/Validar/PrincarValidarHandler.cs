@@ -74,6 +74,15 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                     return new CommandResponse(this);
                 }
 
+                // Buscar Nota Fiscal do Pedido
+                var notaFiscal = _mercadoLivreApi.BuscarNotaFiscal(pedidoId, token.access_token);
+                
+                if (notaFiscal == null)
+                {
+                    AddNotification("PrincarValidar", "Nota Fiscal do Pedido não encontrada.");
+                    return new CommandResponse(this);
+                }
+
                 //******************************************************//
                 // Procedimentos para salvar ou atualizar o pedido
                 //******************************************************//
@@ -104,7 +113,9 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         NickNameCliente = pedido.buyer?.nickname,
                         NomeCliente = nomeCliente,
                         TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado),
-                        TipoEntrega = pedidoEnvio.logistic_type
+                        TipoEntrega = pedidoEnvio.logistic_type,
+                        NumeroNF = notaFiscal.invoice_number,
+                        SerieNF = notaFiscal.invoice_series
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -129,6 +140,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.NomeCliente = nomeCliente;
                         pedidoMercadoLivre.TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado);
                         pedidoMercadoLivre.TipoEntrega = pedidoEnvio.logistic_type;
+                        pedidoMercadoLivre.NumeroNF = notaFiscal.invoice_number;
+                        pedidoMercadoLivre.SerieNF = notaFiscal.invoice_series;
 
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }
