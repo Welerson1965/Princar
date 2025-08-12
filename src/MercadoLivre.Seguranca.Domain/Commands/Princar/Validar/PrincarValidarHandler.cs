@@ -214,7 +214,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         var qtdeFormatada = item.quantity.ToString("N6", new System.Globalization.CultureInfo("pt-BR"));
                         var valorunitFormatado = item.unit_price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
                         var valorfullFormatado = item.full_unit_price.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
-                        var taxaVendaFormatada = item.sale_fee.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                        var taxaVendaFormatada = item.sale_fee?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
 
                         // Verifica se o item já existe
                         var itemExiste = await _repositoryPedidoItemMercadoLivre.ExistsAsync(

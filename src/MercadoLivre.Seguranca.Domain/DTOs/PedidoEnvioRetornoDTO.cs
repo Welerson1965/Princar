@@ -4,7 +4,7 @@
     {
         public Substatus_History[] substatus_history { get; set; }
         public Snapshot_Packing snapshot_packing { get; set; }
-        public int receiver_id { get; set; }
+        public string receiver_id { get; set; }
         public float base_cost { get; set; }
         public Status_History status_history { get; set; }
         public string type { get; set; }
@@ -251,7 +251,7 @@
             public float longitude { get; set; }
             public string address_line { get; set; }
             public string[] types { get; set; }
-            public int scoring { get; set; }
+            public string scoring { get; set; }
             public object agency { get; set; }
             public string geolocation_source { get; set; }
             public string delivery_preference { get; set; }

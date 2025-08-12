@@ -33,7 +33,7 @@
     }
     public class ShippingIndividual
     {
-        public long id { get; set; }
+        public int? id { get; set; }
     }
 
     public class FeedbackIndividual
@@ -56,7 +56,7 @@
 
     public class BuyerIndividual
     {
-        public int id { get; set; }
+        public string id { get; set; }
         public string nickname { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
@@ -86,7 +86,7 @@
         public string full_unit_price_currency_id { get; set; }
         public string currency_id { get; set; }
         public object manufacturing_days { get; set; }
-        public float sale_fee { get; set; }
+        public decimal? sale_fee { get; set; }
         public string listing_type_id { get; set; }
         public object base_exchange_rate { get; set; }
         public object base_currency_id { get; set; }
@@ -131,7 +131,7 @@
     {
         public string id { get; set; }
         public long order_id { get; set; }
-        public int payer_id { get; set; }
+        public string payer_id { get; set; }
         public CollectorIndividual collector { get; set; }
         public long? card_id { get; set; }
         public string reason { get; set; }
