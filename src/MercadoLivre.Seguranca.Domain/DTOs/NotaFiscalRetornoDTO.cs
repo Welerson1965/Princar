@@ -91,7 +91,7 @@
             public string site_id { get; set; }
             public string mode { get; set; }
             public string logistic_type { get; set; }
-            public int buyer_cost { get; set; }
+            public string buyer_cost { get; set; }
             public string paid_by { get; set; }
             public Carrier carrier { get; set; }
             public Volume[] volumes { get; set; }

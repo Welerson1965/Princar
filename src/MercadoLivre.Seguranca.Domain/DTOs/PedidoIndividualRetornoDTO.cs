@@ -158,7 +158,7 @@
         public float? total_paid_amount { get; set; }
         public float? installment_amount { get; set; }
         public object deferred_period { get; set; }
-        public DateTime date_approved { get; set; }
+        public DateTime? date_approved { get; set; }
         public object transaction_order_id { get; set; }
         public DateTime date_created { get; set; }
         public DateTime date_last_modified { get; set; }

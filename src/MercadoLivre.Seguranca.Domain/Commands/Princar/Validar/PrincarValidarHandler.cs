@@ -76,11 +76,14 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
 
                 // Buscar Nota Fiscal do Pedido
                 var notaFiscal = _mercadoLivreApi.BuscarNotaFiscal(pedidoId, token.access_token);
-                
-                if (notaFiscal == null)
+
+                int numeroNF = 0;
+                var serieNF = string.Empty;
+
+                if (notaFiscal != null)
                 {
-                    AddNotification("PrincarValidar", "Nota Fiscal do Pedido não encontrada.");
-                    return new CommandResponse(this);
+                    numeroNF = notaFiscal.invoice_number;
+                    serieNF = notaFiscal.invoice_series;
                 }
 
                 //******************************************************//
@@ -114,8 +117,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         NomeCliente = nomeCliente,
                         TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado),
                         TipoEntrega = pedidoEnvio.logistic_type,
-                        NumeroNF = notaFiscal.invoice_number,
-                        SerieNF = notaFiscal.invoice_series
+                        NumeroNF = numeroNF,
+                        SerieNF = serieNF
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -140,8 +143,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.NomeCliente = nomeCliente;
                         pedidoMercadoLivre.TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado);
                         pedidoMercadoLivre.TipoEntrega = pedidoEnvio.logistic_type;
-                        pedidoMercadoLivre.NumeroNF = notaFiscal.invoice_number;
-                        pedidoMercadoLivre.SerieNF = notaFiscal.invoice_series;
+                        pedidoMercadoLivre.NumeroNF = numeroNF;
+                        pedidoMercadoLivre.SerieNF = serieNF;
 
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }
