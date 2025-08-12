@@ -33,7 +33,7 @@
     }
     public class ShippingIndividual
     {
-        public int? id { get; set; }
+        public long? id { get; set; }
     }
 
     public class FeedbackIndividual

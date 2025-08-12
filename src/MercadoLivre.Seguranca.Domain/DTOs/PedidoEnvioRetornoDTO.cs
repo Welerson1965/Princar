@@ -246,7 +246,7 @@
             public string zip_code { get; set; }
             public object intersection { get; set; }
             public string receiver_name { get; set; }
-            public int id { get; set; }
+            public int? id { get; set; }
             public State1 state { get; set; }
             public float longitude { get; set; }
             public string address_line { get; set; }
@@ -259,7 +259,7 @@
             public string street_number { get; set; }
             public string comment { get; set; }
             public Neighborhood1 neighborhood { get; set; }
-            public DateTime geolocation_last_updated { get; set; }
+            public DateTime? geolocation_last_updated { get; set; }
             public string receiver_phone { get; set; }
         }
 
