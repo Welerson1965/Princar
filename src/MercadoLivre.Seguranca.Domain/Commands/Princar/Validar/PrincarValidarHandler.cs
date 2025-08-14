@@ -77,6 +77,19 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                 // Buscar Nota Fiscal do Pedido
                 var notaFiscal = _mercadoLivreApi.BuscarNotaFiscal(pedidoId, token.access_token);
 
+                var cpf = notaFiscal.recipient?.identifications.cpf ?? string.Empty;
+                var cnpj = notaFiscal.recipient?.identifications.cnpj ?? string.Empty;
+                var cpfcnpj = "";
+
+                if (!string.IsNullOrEmpty(cpf))
+                {
+                    cpfcnpj = cpf;
+                }
+                else if (!string.IsNullOrEmpty(cnpj))
+                {
+                    cpfcnpj = cnpj;
+                }
+
                 int numeroNF = 0;
                 var serieNF = string.Empty;
 
@@ -120,7 +133,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         TipoEntrega = pedidoEnvio.logistic_type,
                         NumeroNF = numeroNF,
                         SerieNF = serieNF,
-                        TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado)
+                        TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado),
+                        CnpjCpf = cpfcnpj
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -148,6 +162,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.NumeroNF = numeroNF;
                         pedidoMercadoLivre.SerieNF = serieNF;
                         pedidoMercadoLivre.TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado);
+                        pedidoMercadoLivre.CnpjCpf = cpfcnpj;
 
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }

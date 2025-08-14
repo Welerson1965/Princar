@@ -83,6 +83,10 @@
         public class Identifications1
         {
             public string cpf { get; set; }
+            public string cnpj { get; set; }
+            public object crt { get; set; }
+            public string ie { get; set; }
+            public string ie_type { get; set; }
         }
 
         public class Shipment
