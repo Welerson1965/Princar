@@ -23,11 +23,12 @@ namespace MercadoLivre.Seguranca.Domain.Entities
         public string TipoEntrega { get; set; }
         public int? NumeroNF { get; set; }
         public string SerieNF { get; set; }
+        public decimal? TaxaEnvio { get; set; }
 
         // EF
         public PedidoMercadoLivre() { }
 
-        public PedidoMercadoLivre(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null, int? numeroNF = 0, string serieNF = null)
+        public PedidoMercadoLivre(string id, string empresaId, DateTime? dataCriacao, DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null, int? numeroNF = 0, string serieNF = null, decimal? taxaEnvio = null)
         {
             Id = id;
             EmpresaId = empresaId;
@@ -48,9 +49,10 @@ namespace MercadoLivre.Seguranca.Domain.Entities
             TipoEntrega = tipoEntrega;
             NumeroNF = numeroNF;
             SerieNF = serieNF;
+            TaxaEnvio = taxaEnvio;
         }
 
-        public void Atualizar(DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null, int? numeroNF = 0, string serieNF = null)
+        public void Atualizar(DateTime? dataAlteracao, DateTime? dataFechamento, string packId, decimal totalPedido, decimal totalPago, string shippingId, string status, string vendedorId, string clienteId, string nickNameCliente, string nomeCliente, decimal? totalTaxas = null, string taxasId = null, string tipoEntrega = null, int? numeroNF = 0, string serieNF = null, decimal? taxaEnvio = null)
         {
             DataAlteracao = dataAlteracao;
             DataFechamento = dataFechamento;
@@ -68,6 +70,7 @@ namespace MercadoLivre.Seguranca.Domain.Entities
             TipoEntrega = tipoEntrega;
             NumeroNF = numeroNF;
             SerieNF = serieNF;
+            TaxaEnvio = taxaEnvio;
         }
     }
 }

@@ -93,6 +93,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                 var totalPedidoFormatado = pedido.total_amount.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
                 var totalPagoFormatado = pedido.paid_amount.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
                 var totalTaxasFormatado = pedido.taxes?.amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                var taxaEnvioFormatado = pedidoEnvio.shipping_option.list_cost?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
 
                 var pedidoExiste = await _repositoryPedidoMercadoLivre.ExistsAsync(p => p.Id == pedidoId, cancellationToken);
 
@@ -118,7 +119,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         TotalTaxas = string.IsNullOrEmpty(totalTaxasFormatado) ? null : Convert.ToDecimal(totalTaxasFormatado),
                         TipoEntrega = pedidoEnvio.logistic_type,
                         NumeroNF = numeroNF,
-                        SerieNF = serieNF
+                        SerieNF = serieNF,
+                        TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado)
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -145,6 +147,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.TipoEntrega = pedidoEnvio.logistic_type;
                         pedidoMercadoLivre.NumeroNF = numeroNF;
                         pedidoMercadoLivre.SerieNF = serieNF;
+                        pedidoMercadoLivre.TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado);
 
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }

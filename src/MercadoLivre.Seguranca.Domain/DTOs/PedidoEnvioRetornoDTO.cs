@@ -84,7 +84,7 @@
             public Buffering buffering { get; set; }
             public Desired_Promised_Delivery desired_promised_delivery { get; set; }
             public Pickup_Promise pickup_promise { get; set; }
-            public float list_cost { get; set; }
+            public float? list_cost { get; set; }
             public Estimated_Delivery_Limit estimated_delivery_limit { get; set; }
             public Priority_Class1 priority_class { get; set; }
             public string delivery_promise { get; set; }
@@ -134,8 +134,8 @@
 
         public class Estimated_Delivery_Time
         {
-            public DateTime date { get; set; }
-            public DateTime pay_before { get; set; }
+            public DateTime? date { get; set; }
+            public DateTime? pay_before { get; set; }
             public object schedule { get; set; }
             public string unit { get; set; }
             public Offset offset { get; set; }
