@@ -147,8 +147,8 @@
             public int status_code { get; set; }
             public string status_description { get; set; }
             public string receipt { get; set; }
-            public DateTime receipt_date { get; set; }
-            public DateTime invoice_creation_date { get; set; }
+            public DateTime? receipt_date { get; set; }
+            public DateTime? invoice_creation_date { get; set; }
             public string protocol { get; set; }
             public object invoice_type { get; set; }
             public string emission_type { get; set; }

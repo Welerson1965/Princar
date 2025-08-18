@@ -77,17 +77,24 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                 // Buscar Nota Fiscal do Pedido
                 var notaFiscal = _mercadoLivreApi.BuscarNotaFiscal(pedidoId, token.access_token);
 
-                var cpf = notaFiscal.recipient?.identifications.cpf ?? string.Empty;
-                var cnpj = notaFiscal.recipient?.identifications.cnpj ?? string.Empty;
+                var cpf = "";
+                var cnpj = "";
                 var cpfcnpj = "";
 
-                if (!string.IsNullOrEmpty(cpf))
+                if (notaFiscal != null)
                 {
-                    cpfcnpj = cpf;
-                }
-                else if (!string.IsNullOrEmpty(cnpj))
-                {
-                    cpfcnpj = cnpj;
+                    cpf = notaFiscal.recipient?.identifications.cpf ?? string.Empty;
+                    cnpj = notaFiscal.recipient?.identifications.cnpj ?? string.Empty;
+                    cpfcnpj = "";
+
+                    if (!string.IsNullOrEmpty(cpf))
+                    {
+                        cpfcnpj = cpf;
+                    }
+                    else if (!string.IsNullOrEmpty(cnpj))
+                    {
+                        cpfcnpj = cnpj;
+                    }
                 }
 
                 int numeroNF = 0;
