@@ -77,7 +77,7 @@
         public class Shipping_Option
         {
             public object processing_time { get; set; }
-            public string cost { get; set; }
+            public float? cost { get; set; }
             public Estimated_Schedule_Limit estimated_schedule_limit { get; set; }
             public int shipping_method_id { get; set; }
             public Estimated_Delivery_Final estimated_delivery_final { get; set; }

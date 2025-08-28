@@ -114,6 +114,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                 var totalPagoFormatado = pedido.paid_amount.ToString("N2", new System.Globalization.CultureInfo("pt-BR"));
                 var totalTaxasFormatado = pedido.taxes?.amount?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
                 var taxaEnvioFormatado = pedidoEnvio.shipping_option.list_cost?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
+                var receitaEnvioFormatado = pedidoEnvio.shipping_option.cost?.ToString("N2", new System.Globalization.CultureInfo("pt-BR")) ?? "0,00";
 
                 var pedidoExiste = await _repositoryPedidoMercadoLivre.ExistsAsync(p => p.Id == pedidoId, cancellationToken);
 
@@ -141,7 +142,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         NumeroNF = numeroNF,
                         SerieNF = serieNF,
                         TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado),
-                        CnpjCpf = cpfcnpj
+                        CnpjCpf = cpfcnpj,
+                        ReceitaEnvio = string.IsNullOrEmpty(receitaEnvioFormatado) ? null : Convert.ToDecimal(receitaEnvioFormatado)
                     };
 
                     await _repositoryPedidoMercadoLivre.AddAsync(pedidoMercadoLivre, cancellationToken);
@@ -170,6 +172,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
                         pedidoMercadoLivre.SerieNF = serieNF;
                         pedidoMercadoLivre.TaxaEnvio = string.IsNullOrEmpty(taxaEnvioFormatado) ? null : Convert.ToDecimal(taxaEnvioFormatado);
                         pedidoMercadoLivre.CnpjCpf = cpfcnpj;
+                        pedidoMercadoLivre.ReceitaEnvio = string.IsNullOrEmpty(receitaEnvioFormatado) ? null : Convert.ToDecimal(receitaEnvioFormatado);
 
                         _repositoryPedidoMercadoLivre.Update(pedidoMercadoLivre);
                     }
