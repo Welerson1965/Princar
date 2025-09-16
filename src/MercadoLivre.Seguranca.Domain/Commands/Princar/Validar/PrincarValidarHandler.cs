@@ -49,7 +49,7 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
             if (request.Recurso.StartsWith("/orders/"))
             {
                 // Validar Token
-                Guid empresaId = Guid.Parse("");
+                Guid empresaId = Guid.Parse("00000000-0000-0000-0000-000000000000");
 
                 if (request.UsuarioId == "1367001737")
                     empresaId = Guid.Parse("23bacfdc-e577-4acb-b5f3-964547dec026");
