@@ -49,7 +49,17 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Validar
             if (request.Recurso.StartsWith("/orders/"))
             {
                 // Validar Token
-                Guid empresaId = Guid.Parse("23bacfdc-e577-4acb-b5f3-964547dec026");
+                Guid empresaId = Guid.Parse("");
+
+                if (request.UsuarioId == "1367001737")
+                    empresaId = Guid.Parse("23bacfdc-e577-4acb-b5f3-964547dec026");
+                else if (request.UsuarioId == "2552128332")
+                    empresaId = Guid.Parse("4feb3ea6-878d-4f59-b9ec-c89f221a7433");
+                else
+                {
+                    AddNotification("PrincarValidar", "Usuário não reconhecido.");
+                    return new CommandResponse(this);
+                }
 
                 var token = _mercadoLivreApi.BuscarToken(empresaId);
 

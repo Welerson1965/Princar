@@ -49,7 +49,8 @@ namespace MercadoLivre.Seguranca.Domain.Commands.Princar.Notificacoes
 
             var validarRequest = new PrincarValidarRequest
             {
-                Recurso = request.resource
+                Recurso = request.resource,
+                UsuarioId = request.user_id
             };
 
             var resultado = await mediator.Send(validarRequest);
