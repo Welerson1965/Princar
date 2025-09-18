@@ -9,7 +9,7 @@
         public Status_History status_history { get; set; }
         public string type { get; set; }
         public object return_details { get; set; }
-        public int sender_id { get; set; }
+        public string sender_id { get; set; }
         public string mode { get; set; }
         public float order_cost { get; set; }
         public Priority_Class priority_class { get; set; }
@@ -308,7 +308,7 @@
             public string id { get; set; }
             public object bundle { get; set; }
             public string user_product_id { get; set; }
-            public int sender_id { get; set; }
+            public string sender_id { get; set; }
             public string dimensions { get; set; }
         }
 

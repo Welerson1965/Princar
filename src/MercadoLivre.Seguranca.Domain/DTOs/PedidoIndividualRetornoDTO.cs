@@ -51,7 +51,7 @@
 
     public class SellerIndividual
     {
-        public int id { get; set; }
+        public string id { get; set; }
     }
 
     public class BuyerIndividual
@@ -169,7 +169,7 @@
 
     public class CollectorIndividual
     {
-        public int id { get; set; }
+        public string id { get; set; }
     }
 
     public class Atm_Transfer_ReferenceIndividual
